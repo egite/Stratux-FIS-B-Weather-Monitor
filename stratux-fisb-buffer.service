@@ -1,0 +1,31 @@
+[Unit]
+Description=Stratux FIS-B Weather Backlog Buffer
+Documentation=https://github.com/cyoung/stratux
+After=network-online.target stratux.service
+Wants=network-online.target
+# Give up if it fails 3 times within 5 minutes — never crash-loop forever.
+StartLimitBurst=3
+StartLimitIntervalSec=300
+
+[Service]
+Type=simple
+# Wait for Stratux to settle before subscribing to its WebSockets.
+# IMPORTANT: this delay must NOT block the installer — see the install
+# script's `systemctl restart --no-block` call.
+ExecStartPre=/bin/sleep 60
+ExecStart=/usr/bin/python3 /opt/stratux/stratux-fisb-buffer.py
+Restart=on-failure
+RestartSec=30
+# Resource caps so a misbehaving daemon can't starve Stratux.
+Nice=10
+MemoryMax=64M
+CPUQuota=15%
+StandardOutput=journal
+StandardError=journal
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
