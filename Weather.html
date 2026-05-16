@@ -3959,9 +3959,18 @@ function renderGraphics() {
       for (let col = 0; col < 32; col++) {
         const rawVal = b.bins[row * 32 + col];
         if (rawVal === 0) continue;
-        // Icing bins store raw byte; extract severity (bits 5:3) for color lookup
-        const val = (prodKey === 'icing_low' || prodKey === 'icing_high')
-          ? (rawVal >> 3) & 0x07 : rawVal;
+        // Icing bins store a bit-packed byte (probability 2:0, severity 5:3, sld 7:6).
+        // Severity is only meaningful when probability > 0; otherwise the byte is a
+        // no-data/filler indicator (e.g. 0xFF) and must be skipped so it isn't drawn
+        // as Extreme.
+        let val;
+        if (prodKey === 'icing_low' || prodKey === 'icing_high') {
+          if ((rawVal & 0x07) === 0) continue;
+          val = (rawVal >> 3) & 0x07;
+          if (val === 7) continue; // severity 7 is reserved per DO-358B
+        } else {
+          val = rawVal;
+        }
         const c = colors[val];
         if (!c || c[3] === 0) continue;
         const binLat = b.lat + (3 - row) * b.binH;
