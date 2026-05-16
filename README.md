@@ -2,6 +2,9 @@
 
 A single-page web application for monitoring FIS-B (Flight Information Services - Broadcast) weather data received by a [Stratux](https://stratux.me/) ADS-B receiver. Designed to run in any modern browser on a desktop, tablet, or phone connected to the Stratux Wi-Fi network.
 
+# Quick Install
+Donwload the update-stratux-v1.0-fisb-weather.s.sh file to your phone.  Connect to your Stratux, go to the Settings page and select the gray "Click to select System Update file" button and chose the sh file.  Then hit the gray button again (it will have blue text saying "Install update-stratux-v1.0-fisb-weather.sh").
+
 ## Features
 
 **Text weather products**
