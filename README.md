@@ -97,6 +97,8 @@ Note that the below Stratux menu screenshot shows Virtual Radar server installed
 
 ![Image](Screenshots/PIREP-map.png)
 
+![Image](Screenshots/PIREP-box.png)
+
 ![Image](Screenshots/turb-hi.png)
 
 ![Image](Screenshots/turb-lo.png)
