@@ -79,7 +79,7 @@ All code in this repository was authored by [Claude Code](https://claude.com/cla
 
 ![Image](Screenshots/icing-hi.png)
 
-![Image](Screenshots/icingg-lo.png)
+![Image](Screenshots/icing-lo.png)
 
 ![Image](Screenshots/lightning.png)
 
