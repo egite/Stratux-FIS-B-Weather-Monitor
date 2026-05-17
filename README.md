@@ -72,3 +72,17 @@ This software is provided for situational awareness and educational use only. It
 ## Authorship
 
 All code in this repository was authored by [Claude Code](https://claude.com/claude-code) (Anthropic), directed and reviewed by the repository owner.
+
+![Image](Screenshots/menu.png)]
+![Image](Screenshots/clouds-tops.png)]
+![Image](Screenshots/icing-hi.png)]
+![Image](Screenshots/icingg-lo.png)]
+![Image](Screenshots/lightning.png)]
+![Image](Screenshots/METAR.png)]
+![Image](Screenshots/NEXRAD-CONUS.png)]
+![Image](Screenshots/NEXRAD-regional.png)]
+![Image](Screenshots/PIREP-list.png)]
+![Image](Screenshots/PIREP-map.png)]
+![Image](Screenshots/turb-hi.png)]
+![Image](Screenshots/turb-lo.png)]
+![Image](Screenshots/Wind-map.png)]
