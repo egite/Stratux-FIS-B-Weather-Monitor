@@ -74,6 +74,8 @@ This software is provided for situational awareness and educational use only. It
 All code in this repository was authored by [Claude Code](https://claude.com/claude-code) (Anthropic), directed and reviewed by the repository owner.
 
 ![Image](Screenshots/menu.png)
+Note that this screenshot shows Virtual Radar server installed on this Stratux deployment.  You can add VRS to your Stratux here:  [irtual-Radar-Server-on-Stratux
+](https://github.com/egite/Virtual-Radar-Server-on-Stratux)
 
 ![Image](Screenshots/cloud-tops.png)
 
