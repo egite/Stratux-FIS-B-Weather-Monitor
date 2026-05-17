@@ -75,7 +75,7 @@ All code in this repository was authored by [Claude Code](https://claude.com/cla
 
 ![Image](Screenshots/menu.png)
 
-![Image](Screenshots/clouds-tops.png)
+![Image](Screenshots/cloud-tops.png)
 
 ![Image](Screenshots/icing-hi.png)
 
