@@ -68,3 +68,7 @@ Additional sources:
 ## Disclaimer
 
 This software is provided for situational awareness and educational use only. It is **not** approved for navigation. Always cross-check weather information against official sources before flight.
+
+## Authorship
+
+All code in this repository was authored by [Claude Code](https://claude.com/claude-code) (Anthropic), directed and reviewed by the repository owner.
