@@ -75,6 +75,8 @@ All code in this repository was authored by [Claude Code](https://claude.com/cla
 
 Note that the below Stratux menu screenshot shows Virtual Radar server installed on this Stratux deployment.  You can add VRS to your Stratux here:  [Virtual-Radar-Server-on-Stratux](https://github.com/egite/Virtual-Radar-Server-on-Stratux)
 
+## Tablet Screenshots
+
 ![Image](Screenshots/menu.png)
 
 ![Image](Screenshots/cloud-tops.png)
