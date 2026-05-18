@@ -860,7 +860,7 @@
 </main>
 
 <footer>
-  Stratux FIS-B Weather Monitor <span class="build-sep">&middot; </span><span class="build-line">Build: May 15, 2026 15:20</span>
+  Stratux FIS-B Weather Monitor <span class="build-sep">&middot; </span><span class="build-line">Build: May 16, 2026 17:25</span>
   <br><button onclick="document.getElementById('aboutDialog').style.display='flex'" style="background:none;border:none;color:var(--blue);cursor:pointer;font-family:inherit;font-size:1em;text-decoration:underline;margin-top:4px;">About</button>
 </footer>
 <div id="aboutDialog" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
@@ -3099,12 +3099,15 @@ const GFX_COLORS = {
     4:[255,0,17,200], 5:[153,0,23,200], 6:[255,0,251,200], 7:[154,0,150,200],
   },
   icing_low: {
+    // Index 0 (no data) and 7 (reserved per DO-358B) are transparent —
+    // matches NEXRAD's pattern of marking invalid levels with alpha 0
+    // so a single alpha-check filters them out in the render loop.
     0:[0,0,0,0], 1:[135,206,250,140], 2:[0,191,255,160], 3:[30,144,255,180],
-    4:[0,0,255,200], 5:[138,43,226,200], 6:[148,0,211,220], 7:[255,0,255,240],
+    4:[0,0,255,200], 5:[138,43,226,200], 6:[148,0,211,220], 7:[0,0,0,0],
   },
   icing_high: {
     0:[0,0,0,0], 1:[135,206,250,140], 2:[0,191,255,160], 3:[30,144,255,180],
-    4:[0,0,255,200], 5:[138,43,226,200], 6:[148,0,211,220], 7:[255,0,255,240],
+    4:[0,0,255,200], 5:[138,43,226,200], 6:[148,0,211,220], 7:[0,0,0,0],
   },
   turb_low: {
     0:[0,0,0,0], 1:[144,238,144,120], 2:[0,255,0,140], 3:[173,255,47,160],
@@ -3230,7 +3233,8 @@ function decodeRleLightning(data, offset, length) {
 function decodeRleIcing(data, offset, length) {
   // Two-byte pairs: count (encoded as count-1), data byte
   // Data byte: probability (bits 2:0), severity (bits 5:3), sld (bits 7:6)
-  // Stores the raw data byte (matching reference fisb_graphics.py)
+  // Returns null if bins != 128 (incomplete block — empty block notification,
+  // not real data; same defensive pattern as decodeRleLightning).
   const bins = []; let pos = offset;
   const end = Math.min(offset + length, data.length);
   while (pos + 1 < end && bins.length < 128) {
@@ -3240,8 +3244,9 @@ function decodeRleIcing(data, offset, length) {
     const n = Math.min(count, 128 - bins.length);
     for (let i = 0; i < n; i++) bins.push(value);
   }
-  while (bins.length < 128) bins.push(0);
-  return bins.slice(0, 128);
+  // Must decode to exactly 128 bins; short APDUs are empty block notifications
+  if (bins.length !== 128) return null;
+  return bins;
 }
 
 function decodeRleTurbulence(data, offset, length) {
@@ -3352,7 +3357,10 @@ function decodeBlock(data, offset, length, productId, timestamp) {
     bins = decodeRleLightning(data, rleOff, rleLen);
     if (bins === null) return null; // incomplete lightning block
   }
-  else if (ICING_IDS.has(productId)) bins = decodeRleIcing(data, rleOff, rleLen);
+  else if (ICING_IDS.has(productId)) {
+    bins = decodeRleIcing(data, rleOff, rleLen);
+    if (bins === null) return null; // incomplete icing block
+  }
   else bins = decodeRleTurbulence(data, rleOff, rleLen);
 
   return {
@@ -3960,14 +3968,11 @@ function renderGraphics() {
         const rawVal = b.bins[row * 32 + col];
         if (rawVal === 0) continue;
         // Icing bins store a bit-packed byte (probability 2:0, severity 5:3, sld 7:6).
-        // Severity is only meaningful when probability > 0; otherwise the byte is a
-        // no-data/filler indicator (e.g. 0xFF) and must be skipped so it isn't drawn
-        // as Extreme.
+        // Skip if probability is 0 (no-data/filler byte); otherwise look up severity.
         let val;
         if (prodKey === 'icing_low' || prodKey === 'icing_high') {
           if ((rawVal & 0x07) === 0) continue;
           val = (rawVal >> 3) & 0x07;
-          if (val === 7) continue; // severity 7 is reserved per DO-358B
         } else {
           val = rawVal;
         }
