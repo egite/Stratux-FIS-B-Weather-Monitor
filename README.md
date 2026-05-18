@@ -31,7 +31,7 @@ Download the [update-stratux-v1.0-fisb-weather.sh](https://github.com/egite/Stra
 
 ## Installation
 
-The intended deployment is on the Stratux device itself, served from the same web server that hosts the stock Stratux UI. The included `update-stratux-v1.0-fisb-weather.sh` installer patches a Stratux image to add a `stratux-fisb-buffer` systemd service (which captures FIS-B frames during boot so they aren't lost before the browser connects) and installs `Weather.html` alongside the stock UI. See [UPDATE-INSTRUCTIONS.md](UPDATE-INSTRUCTIONS.md) for details.
+The intended deployment is on the Stratux device itself, served from the same web server that hosts the stock Stratux UI. The included [`update-stratux-v1.0-fisb-weather.sh`](update-stratux-v1.0-fisb-weather.sh) installer patches a Stratux image to add a `stratux-fisb-buffer` systemd service (which captures FIS-B frames during boot so they aren't lost before the browser connects) and installs `Weather.html` alongside the stock UI. See [UPDATE-INSTRUCTIONS.md](UPDATE-INSTRUCTIONS.md) for details.
 
 For development or read-only use, `Weather.html` can also be opened directly from disk &mdash; in that case it defaults to connecting to `192.168.10.1` (the standard Stratux IP).
 
@@ -62,7 +62,7 @@ Additional sources:
 
 - `Weather.html` &mdash; the entire application (all JavaScript, CSS, and inlined CONUS boundary data)
 - `conus_map.js` &mdash; standalone backup of the CONUS boundary data (inlined into `Weather.html`)
-- `update-stratux-v1.0-fisb-weather.sh` &mdash; self-extracting installer that patches a Stratux image
+- [`update-stratux-v1.0-fisb-weather.sh`](update-stratux-v1.0-fisb-weather.sh) &mdash; self-extracting installer that patches a Stratux image
 - `UPDATE-INSTRUCTIONS.md` &mdash; installer usage notes
 
 ## Disclaimer
